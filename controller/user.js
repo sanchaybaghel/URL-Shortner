@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const {setUser}=require('../Services/auth')
 
 console.log("submit");
@@ -37,7 +36,7 @@ async function handleUserLogin(req, res) {
     }
     const isPasswordMatch=await bcrypt.compare(Password,user.Password);
     if(!isPasswordMatch){
-        res.render('login',{error:"incorrect Password"})
+        return res.render('login',{error:"incorrect Password"})
     }
 
    const token=setUser(user)

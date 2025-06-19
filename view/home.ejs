@@ -18,7 +18,7 @@
     <div>
         <form method="POST" action="/url">
             <label>Enter Your Original URL:</label>
-            <input 
+            <input
             type="text"
             placeholder="https://example.com"
             name="url"
@@ -26,5 +26,35 @@
             <button type="submit">Generate</button>
         </form>
     </div>
+
+    <% if (locals.urls && locals.urls.length > 0) { %>
+        <div>
+            <h2>Generated URLs:</h2>
+            <table border="1" style="margin-top: 20px; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th style="padding: 10px;">Short ID</th>
+                        <th style="padding: 10px;">Original URL</th>
+                        <th style="padding: 10px;">Short URL</th>
+                        <th style="padding: 10px;">Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% locals.urls.forEach(url => { %>
+                        <tr>
+                            <td style="padding: 10px;"><%= url.shortId %></td>
+                            <td style="padding: 10px;"><%= url.redirectURL %></td>
+                            <td style="padding: 10px;">
+                                <a href="http://localhost:8001/url/<%= url.shortId %>" target="_blank">
+                                    http://localhost:8001/url/<%= url.shortId %>
+                                </a>
+                            </td>
+                            <td style="padding: 10px;"><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
 </body>
 </html>

@@ -56,4 +56,4 @@ const PORT = 8001;
 
 app.set("view engine", "ejs");
 app.set('views', path.resolve("./view"));
-app.listen(PORT, () => console.log(`Server started at PORT ${PORT}`));
+app.listen(PORT, () => console.log(`Server started at http://localhost:/${PORT}`));

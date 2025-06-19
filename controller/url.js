@@ -12,15 +12,26 @@ async function handleGenerateNewShortURL(req,res) {
         redirectURL:body.url,
         visitHistory:[],
     })
+
+    // Fetch all URLs to display in the home page
+    const allUrls = await URL.find({});
+
     return res.render('home',{
         id:shortId,
+        urls:allUrls,
     })
 }
 
 async function handleGetAnalytics(req,res){
     const shortId=req.params.shortId;
-   const result= await URL.findOne({shortId});
-    return res.json({totalClicks:result.visitHistory.length,
+    const result= await URL.findOne({shortId});
+    
+    if(!result) {
+        return res.status(404).json({error: 'Short URL not found'});
+    }
+    
+    return res.json({
+        totalClicks:result.visitHistory.length,
         analytics:result.visitHistory,
     })
 }
