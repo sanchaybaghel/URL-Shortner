@@ -16,9 +16,13 @@ async function handleGenerateNewShortURL(req,res) {
     // Fetch all URLs to display in the home page
     const allUrls = await URL.find({});
 
+    // Get base URL for the application
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+
     return res.render('home',{
         id:shortId,
         urls:allUrls,
+        baseUrl:baseUrl,
     })
 }
 
