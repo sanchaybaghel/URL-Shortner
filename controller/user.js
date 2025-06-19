@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypts');
 const {setUser}=require('../Services/auth')
 
 console.log("submit");
