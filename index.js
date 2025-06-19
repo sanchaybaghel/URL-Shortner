@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const { connectToMongoDB } = require('./connect');
 const URL = require('./models/url');
@@ -53,10 +54,18 @@ app.get('/url/:shortId', async (req, res) => {
 
 // Use environment variable for MongoDB connection or fallback to local
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/short-url";
+
+// Debug: Log connection info (without showing password)
+console.log('Environment check:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('MONGODB_URI exists:', !!process.env.MONGODB_URI);
+console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+
 connectToMongoDB(MONGODB_URI)
-    .then(() => console.log(`MongoDB connected successfully`))
+    .then(() => console.log(`MongoDB connected successfully to: ${MONGODB_URI.replace(/\/\/.*@/, '//***:***@')}`))
     .catch((error) => {
-        console.error("MongoDB connection failed:", error);
+        console.error("MongoDB connection failed:", error.message);
+        console.error("Connection string (masked):", MONGODB_URI.replace(/\/\/.*@/, '//***:***@'));
         process.exit(1);
     });
 
